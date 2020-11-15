@@ -17,7 +17,7 @@ import 'package:google_fonts/google_fonts.dart';
   String name;
   String color;
   int indexx;
-   CreateNewListWidget(this.loginDetail,this.title, {this.sId,this.name,this.color,this.indexx})  ;
+   CreateNewListWidget(this.loginDetail,this.title, {this.sId,this.name,this.color,this.indexx});
   @override
   _CreateNewListWidgetState createState() => _CreateNewListWidgetState();
 }
@@ -30,25 +30,32 @@ class _CreateNewListWidgetState extends State<CreateNewListWidget> {
   FavouriteBloc favouriteBloc=new FavouriteBloc();
   TextEditingController controller;
   _CreateNewListWidgetState() {
-    colorBloc = ColorBloc();
-    colorList = List();
-    colorList = [false, false, false, false, false];
-     colorBloc.ListOfColor.add(colorList);
+
   }
   @override
   Future<void> initState() {
     // TODO: implement initState
     super.initState();
+    colorBloc = ColorBloc();
+    colorList = List();
+    colorList = [widget.color==null?true:false, false, false, false, false];
+    colorBloc.ListOfColor.add(colorList);
     controller =new TextEditingController();
     if(widget.name!=null) {
-      /*setState(() {
+      setState(() {
         controller.text = widget.name;
-      });*/
+      });
+    }
+    if(widget.color==null) {
+      setState(() {
+        colorSelect = "5481E6";
+      });
     }
 
   }
   @override
   Widget build(BuildContext context) {
+    debugPrint("colorsss"+widget.color.toString());
     colorBloc.ListOfColor.add(colorList);
     return
        Scaffold(
@@ -105,10 +112,11 @@ class _CreateNewListWidgetState extends State<CreateNewListWidget> {
                      ),
                     20.verticalSpace(),
                     textFiled(
-                        widget.title ==
-                            "Create new list"?
-                        "name list "
-                        :"",
+                        widget.title ==languageConversion(context,
+                            'UI_CREATE_NEW_LIST')
+                             ?languageConversion(context,
+                            'UI_NAME_LIST')
+                            :"",
                     ),
                     20.verticalSpace(),
                     text(context,languageConversion(context,
@@ -119,7 +127,8 @@ class _CreateNewListWidgetState extends State<CreateNewListWidget> {
                           return Row(children: [
                             color(
                                 blueColor,
-                                snapshot.data == null ? false : snapshot.data[0],
+                                snapshot.data == null ? false :
+                                snapshot.data[0],
                                 function: () {
                                   addSelectedColors(
                                       selected_i0: true,
@@ -194,8 +203,7 @@ class _CreateNewListWidgetState extends State<CreateNewListWidget> {
           'UI_TOAST_ENTER_NAME_LIST').toast(color: colorWhite);
       return false;
     }
-
-    else if (color.isEmpty && renameColor.isEmpty) {
+    else if (color.isEmpty && renameColor==null) {
       languageConversion(context,
           'UI_TOAST_SELECT_ANY_COLOR').toast(color: colorWhite);
       return false;
@@ -295,9 +303,7 @@ class _CreateNewListWidgetState extends State<CreateNewListWidget> {
   Widget color(Color color, bool selected, {Function function}) {
     return selected || widget.color!=null && color== widget.color.toColor()
         ? Container(padding: EdgeInsets.only(left: 20,right: 10,top: 10,bottom: 10),
-          child: selectedColor(color: widget.color==null?color:widget.color.toColor(),
-          //  margin:EdgeInsets.only( left: 1, right:1,)
-         ),) : InkWell(
+          child: selectedColor(color: widget.color==null?color:widget.color.toColor(),),) : InkWell(
         onTap: (){function();},
         child: Container(
             padding: EdgeInsets.only(left: 20,right: 10,top: 10,bottom: 10),

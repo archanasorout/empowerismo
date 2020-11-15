@@ -93,30 +93,34 @@ class _FavoritesListWidgetState extends State<FavoritesListWidget> {
                     /*setState((){
                       favouriteModel=null;
                     });*/
-
-
-                 var filteredList = favouriteModel1.favouriteList.where((element) => element.listName.contains(value));
+                    favouriteListtt.clear();
+                    var filteredList = favouriteModel1.favouriteList.where((element) => element.listName.contains(value));
+                 /*setState(() {
+                   favouriteListtt.addAll(filteredList) ;
+                 });*/
+                    debugPrint(
+                        "dzjgbjh" + filteredList.length.toString());
 
                  if(filteredList!=null &&filteredList.length>0 ) {
-                   debugPrint(
-                       "filteredList:::" + filteredList.length.toString());
+                  /* debugPrint(
+                       "filteredList:::" + filteredList.length.toString());*/
                    debugPrint(
                        "filteredList:::" + SearchController.text.length.toString());
-                  /* favouriteBloc.favouriteModelbloc.sink.add(
+                   /*favouriteBloc.favouriteModelbloc.sink.add(
                        FavouriteModel()
-                         ..favouriteList = filteredList);*/
-                    setState(() {
-                     favouriteListtt = filteredList;
+                         ..favouriteList.addAll(  filteredList));*/
+                     setState(() {
+                      favouriteListtt.addAll(filteredList) ;
                     });
 
                    debugPrint(
                        "datata :::" + favouriteListtt.length.toString());
                  }
-                  }
-                       // refreshList();
-
-
-                  ,
+                 else{
+                   setState(() {
+                   });
+                 }
+                  },
                   controller: SearchController,
                   style: GoogleFonts.lato(
                       fontSize: 16, fontWeight: FontWeight.w400, color: text9Color),
@@ -149,8 +153,7 @@ class _FavoritesListWidgetState extends State<FavoritesListWidget> {
                           widget.loginDetail,languageConversion(context,
                             'UI_TEXT_CREATE_NEW_LIST'),
                           sId: "",
-
-                          color: "",
+                          color: null,
                           name: "",
 
                         ),
@@ -166,19 +169,25 @@ class _FavoritesListWidgetState extends State<FavoritesListWidget> {
                     ),
                   ),
                 if(SearchController.text.length>=1)
+                  favouriteListtt?.length==0 ?
+                  Center(
+                    child: customText(
+                        text:
+                            languageConversion(context,
+                                'UI_NO_LIST_NAME_EXISTS'),
 
-
-                  favouriteListtt?.length==0 ?Center(
-    child: CircularProgressIndicator(
-        valueColor:
-        new AlwaysStoppedAnimation<Color>(purpleColor),
-    ),
+    style: font(
+                            fontSize: 16,
+                            color: textDark1Color,
+                            fontWeight: FontWeight.w600),
+                        margin: EdgeInsets.only(top: 20)),
     ):  customListt (
       list: favouriteListtt,
       child: (index) {
         debugPrint("in filter list");
         return  favList(index,favouriteListtt);},
-    ) else       StreamBuilder<FavouriteModel>(
+    ) else
+      StreamBuilder<FavouriteModel>(
                       stream: favouriteBloc.favouriteModelbloc.stream,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
@@ -207,7 +216,8 @@ class _FavoritesListWidgetState extends State<FavoritesListWidget> {
                               return customListt (
                                 list: snapshot.data.favouriteList,
                                 child: (index) {
-                                  return  favList(index,snapshot.data.favouriteList);
+                                  return  favList(index,
+                                      snapshot.data.favouriteList);
                                 },
                               );
                           //  }
@@ -348,6 +358,7 @@ class _FavoritesListWidgetState extends State<FavoritesListWidget> {
   deleteDialog(context,index, favouriteList);
   else if(data != null && data ==languageConversion(context,
       'UI_RESPONSE_RENAME') ) {
+    debugPrint("rename"+favouriteList[index].listName);
   var renameData=  await navigate(
   context, isAwait: true, screen:
   CreateNewListWidget(

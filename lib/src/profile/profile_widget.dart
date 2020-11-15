@@ -52,9 +52,16 @@ class _ProfileWidgetState extends State<ProfileWidget> {
             list(context, "assets/images/user.svg",
                 languageConversion(context, 'UI_TITLE_ACCOUNT_DETAILS'),
                 function: () async {
-             await navigate(context, screen:
+          var data =   await navigate(context, isAwait:true,screen:
               AccountDetailWidget(widget.loginDetail));
-             widget.homePageState.getAllData();
+          if(data) {
+            debugPrint("ddbshfshdbh");
+            widget.homePageState.widget.index_value=2;
+            widget.homePageState.getAllData();
+          }else
+            {
+              debugPrint("12345678");
+            }
             }),
             list(context, "assets/images/file.svg",
             languageConversion(context, 'UI_TITLE_SUBCRIPTION'),

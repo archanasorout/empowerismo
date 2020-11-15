@@ -3,11 +3,8 @@ import 'package:empowerismo/utils/UserRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'base/constants/PrefConstant.dart';
-import 'base/model/login_model.dart';
 import 'package:empowerismo/src/authentication/login_page.dart';
-
 import 'language/demo_localizations_delegate.dart';
 
 void main() async {
@@ -16,12 +13,12 @@ void main() async {
     DeviceOrientation.portraitUp,
   ]);
   final status = await isUserLogin();
-  runApp(MyApp(status: status, ));
+  runApp(MyApp(status: status,));
 }
 
 class MyApp extends StatelessWidget {
   final status;
-   MyApp( {this.status,  });
+   MyApp( {this.status, });
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +35,9 @@ class MyApp extends StatelessWidget {
       localeResolutionCallback: (Locale locale, Iterable<Locale> supportedLocales) {
         for (Locale supportedLocale in supportedLocales) {
           if (supportedLocale.languageCode == locale.languageCode || supportedLocale.countryCode == locale.countryCode) {
-            return supportedLocale;
+    return supportedLocale;
           }
         }
-
         return supportedLocales.first;
       },
       title: 'empowerismo',

@@ -11,8 +11,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:empowerismo/src/authentication/forgot_password_page.dart';
 
-import 'change_password.dart';
-import 'otp_page.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -62,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
               LoginPasswordTextField(
                 context,
                 "assets/images/message.svg",
-                DemoLocalizations.of(context).trans('UI_EMAIL')  ,
+                DemoLocalizations.of(context).trans('UI_EMAIL'),
                 false,
                 height: 13.94,
                 width: 18.3,

@@ -157,6 +157,7 @@ return Column(
     bool icon: false,
        bool isfavSelected:false,
         Function function,
+        bool addedList:false
   }) {
     return Container(
        margin: EdgeInsets.only(
@@ -193,7 +194,7 @@ return Column(
               ),
               Row(
                 children: [
-                  /*customText(
+               /* addedList?customText(
                     textAlign: TextAlign.start,
                     //alignmentGeometry: Alignment.topLeft,
                     text: "Added in 2 lists",
@@ -202,7 +203,7 @@ return Column(
                         fontSize: 14.0,
                         color: color,
                         fontWeight: FontWeight
-                            .w400),),*/
+                            .w400),):Container(),*/
                   InkWell(
                     onTap: () async {
                       function();
@@ -260,6 +261,7 @@ return Column(
                         fontStyle: FontStyle.italic, icon: true,
                         result:snapshot.data.result,
                           isfavSelected:snapshot.data.favourited,
+                          addedList:true,
                         function: () async {
                           await navigate(context,
                               isAwait: true,

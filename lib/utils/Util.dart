@@ -147,6 +147,13 @@ snackBar({BuildContext context,String text}){
     content: Text(text),
   ));
 }
+bool validateStructure(String value){
+  debugPrint("validationnnn"+value);
+  String  pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+  RegExp regExp = new RegExp(pattern);
+
+  return regExp.hasMatch(value);
+}
 bool validate(String email, String password,BuildContext context ) {
   if (email.isEmpty) {
      DemoLocalizations.of(context).trans('VALIDATION_ENTER_EMAIL').toast();

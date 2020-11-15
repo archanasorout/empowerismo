@@ -21,6 +21,12 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   TextEditingController confirmPassController = TextEditingController();
   TextEditingController oldPassController = TextEditingController();
   TextEditingController newPassController = TextEditingController();
+  bool isOldPass=true;
+  bool isNewPass=true;
+  bool isConfirmPass=true;
+  final _formKey = GlobalKey<FormState>();
+  bool isPasswordValid=false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -67,13 +73,21 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   loginPasswordTextField(
                     context,
                     "assets/images/lock.svg",
-                    DemoLocalizations.of(context).trans('UI_HINT_OLD_PASSWORD'),
+                    DemoLocalizations.of(context).
+                    trans('UI_HINT_OLD_PASSWORD'),
                     true,
                     height: 16.72,
                     width: 13.93,
                     password: true,
                     controller: oldPassController,
                     isShowPass:true,
+                      isPassShowing:isOldPass,
+                    function:(){
+                      if(isOldPass)
+                        {setState((){isOldPass=false;});
+                        }else{debugPrint("ddsfdrg");
+                        setState(() {isOldPass=true;});}
+                    }
                   ),
                   15.verticalSpace(),
                   loginPasswordTextField(
@@ -86,7 +100,25 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     password: true,
                     controller: newPassController,
                       isShowPass:true,
+                      isPassShowing:isNewPass,
+                      function:(){
+                        if(isNewPass)
+                        {
+                          setState(() {isNewPass=false;});
+                        }else{
+                          setState(() {isNewPass=true;});
+                        }
+                    },
+                      onChanged:(value){
+                      debugPrint("dslkhduj"+value);
+                      setState(() {
+                        isPasswordValid=validateStructure(value);
+                      });
+
+                      }
                   ),
+                newPassController.text.length>0 && !isPasswordValid?validationWidget(
+                      DemoLocalizations.of(context).trans('UI_PASSWORD_VALIDATION')):Container(),
                   15.verticalSpace(),
                   loginPasswordTextField(
                     context,
@@ -98,7 +130,22 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     password: true,
                     controller: confirmPassController,
                     isShowPass:true,
-                  ),
+                      isPassShowing:isConfirmPass,
+                      function:(){
+                        if(isConfirmPass)
+                        {
+                          setState(() {isConfirmPass=false;});
+                        }else{
+                          setState(() {isConfirmPass=true;});
+                        }
+
+                      },onChanged:(value){
+                    debugPrint("dslkhduj"+value);
+                    setState(() { });
+
+                  }
+                  ), confirmPassController.text.length>0 && confirmPassController.text!=newPassController.text?validationWidget(
+                      DemoLocalizations.of(context).trans('UI_TOAST_CONFIRM_RESET_NOT_MATCHED')):Container(),
 
                   50.verticalSpace(),
                   Container(
@@ -113,11 +160,12 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
                         else if (newPassController.text.isEmpty) {
                           DemoLocalizations.of(context).trans('UI_TOAST_ENTER_NEW_PASSWORD') .toast();
+                        } else if (!isPasswordValid) {
+                          DemoLocalizations.of(context).trans('UI_TOAST_ENTER_VALID_NEW_PASSWORD') .toast();
                         }
                         else if (confirmPassController.text.isEmpty) {
                           DemoLocalizations.of(context).trans("UI_TOAST_ENTER_CONFIRM_PASSWORD") .toast();
                         }
-
                         else if (confirmPassController.text!=newPassController.text ) {
                           DemoLocalizations.of(context).trans('UI_TOAST_CONFIRM_RESET_NOT_MATCHED').toast();
                         }
@@ -154,7 +202,13 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         double width: 15,
         bool password: false,
         TextEditingController controller,
-        bool isShowPass: false}) {
+        bool isShowPass: false,
+      bool isPassShowing:false,
+        Function function,
+        Function onChanged,
+
+
+      }) {
     return Container(
       margin: EdgeInsets.only(left: 20, right: 20),
       color: colorWhite,
@@ -180,19 +234,44 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               width: 1,
             ),
           ],
-        ),
+        ),leading:
+         InkWell(
+           onTap: (){
+             function();
+           },
+           child: Container(
+              margin: EdgeInsets.only(left: 10, right: 10),
+              child: Icon(
+                Icons.visibility,
+                 color: isPassShowing ? text11Color : purpleColor,
+              )),
+         ),
+        functionForEditText: (value){
+          return  onChanged(value);
+        },
         controller: controller,
         hintStyle: font(
             fontSize: 16.0, color: text11Color, fontWeight: FontWeight.w400),
         radious: 5.0,
         hint: text,
-        isObsure: isShowPass,
+        isObsure: isPassShowing,
         textField: true,
 
       ),
     );
   }
+validationWidget(String validation){
+ return customText(
+    margin: EdgeInsets.only(left: 20, right: 20),maxLine:5,
+   textAlign:TextAlign.start,
 
+   text:"*"+validation,
+    style: font(
+        fontSize: 16.0,
+        color: Colors.red,
+        fontWeight: FontWeight.w600),
+  );
+}
   changePasswordApi(String new_password, String confirm_password,String oldPassword,
       String auth_token, String user_id, BuildContext context) async {
     {
@@ -212,4 +291,6 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       }
     }
   }
+
+
 }

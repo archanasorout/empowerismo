@@ -1,18 +1,14 @@
 {
    "ERROR_INTERNET_CONNECTION":"Check your internet connection and Please try again later.",
    "ERROR_SOMETHING_WRONG":"Sorry Something went wrong.",
-
-
-   "UI_LOGIN": "Login",
+    "UI_LOGIN": "Login",
    "UI_EMAIL": "Email",
    "UI_PASSWORD": "Password",
    "UI_FORGOT_PASSSWORD": "Forgot password?",
    "VALIDATION_ENTER_EMAIL": "Enter Email Address",
    "VALIDATION_ENTER_VALID_EMAIL_ADDRESS": "Enter Valid Email Address",
    "VALIDATION_ENTER_YOUR_PASSWORD": "Enter Your Password",
-
-
-   "UI_FORGOT_YOUR_PASSSWORD": "Forgot your password?",
+    "UI_FORGOT_YOUR_PASSSWORD": "Forgot your password?",
    "UI_SEND_OTP_TO_YOUR_EMAIL": "Enter your email address below and we'll send you OTP to reset your password.",
    "UI_HINT_ENTER_YOUR_EMAIL": "Enter your Email Address",
    "UI_BUTTON_SEND_OTP": "Send OTP",
@@ -35,12 +31,14 @@
    "UI_HINT_CONFIRM_PASSWORD":  "Confirm password",
    "UI_BUTTON_CHANGE_PASS_CONTINUE":  "Continue",
    "UI_TOAST_ENTER_NEW_PASSWORD":   "Please enter your new password",
+   "UI_TOAST_ENTER_VALID_NEW_PASSWORD":   "Please enter a valid new password",
    "UI_TOAST_ENTER_OLD_PASSWORD":   "Please enter your Old password",
    "UI_TOAST_ENTER_CONFIRM_PASSWORD":   "Please enter your confirm password",
-   "UI_TOAST_CONFIRM_RESET_NOT_MATCHED":   "confirm password and reset password not matched",
+   "UI_TOAST_CONFIRM_RESET_NOT_MATCHED":   "Confirm password and Reset password not matched",
+   "UI_TOAST_CONFIRM_NEW_NOT_MATCHED":   "Confirm password and New password not matched",
    "UI_RESPONSE_PASSWORD_RESET":   "Password reset successfully",
    "UI_RESPONSE_PASSWORD_CHANGE":   "Password changed successfully",
-   "UI_CHANGE_PASSWORD":   "Change old password",
+   "UI_CHANGE_PASSWORD":   "Change password",
    "UI_HINT_OLD_PASSWORD":    "Old password",
    "UI_RESPONSE_LOGOUT":    "Logout successfully.",
    "UI_RESPONSE_AUTHENTICATION":    "Authentication error!",
@@ -57,13 +55,13 @@
    "UI_TEXT_SEARCH_HERE":  "Search here",
 
    "UI_TEXT_SEARCH_WORD":  "Search",
-   "UI_TEXT_SEARCH_NO_WORD":  "no word is here",
+   "UI_TEXT_SEARCH_NO_WORD":  "No word is here",
    "UI_RESPONSE_FETCH_WORD":  "Words fetched successfully",
    "UI_RESPONSE_FETCH_WORDD":  "Word fetched successfully",
    "UI_TITLE_ADD_TO_FAVORITES":  "Add to Favorites",
    "UI_TEXT_NO_MEANING_HERE":   "No meaning is here",
-   "UI_RESPONSE_DELETE":   "delete",
-   "UI_RESPONSE_RENAME":   "rename",
+   "UI_RESPONSE_DELETE":   "Delete",
+   "UI_RESPONSE_RENAME":   "Rename",
    "UI_TITLE_RENAME_LIST":   "Rename List",
    "UI_RESPONSE_FAV_LIST_UPDATED":   "Favourite list updated successfully",
    "UI_TEXT_WORDS":  " words",
@@ -83,7 +81,7 @@
    "UI_RESPONSE_NAME_YOUR_LIST":   "Name your list",
    "UI_TEXT_SELECT_COLOR":   "Select Color",
    "UI_TOAST_ENTER_NAME_LIST":   "Please enter your name of list",
-   "UI_TOAST_SELECT_ANY_COLOR":   "please select any color",
+   "UI_TOAST_SELECT_ANY_COLOR":   "Please select any color",
    "UI_TOAST_AUTH_TOKEN_EMPTY":   "Your auth token is empty",
    "UI_TEXT_DOWNLOAD":    "Download",
    "UI_TEXT_PRINT":    "Print",
@@ -109,6 +107,11 @@
 "UI_TEXT_PAYMENT_DETAILS":"Payment Details",
 "UI_TEXT_BILLING_DATE":"Your next billing date is 23 September 2020.",
  "UI_TEXT_FOR_REQUST_DELETION":"Under the EU Data Protection Regulation (GDPR), you may at any time request the deletion of your information with Empowerismo GmbH. Once we have received your request, your user account will be deleted, and all your information will disappear permanently. We back up all of our systems, and if the backup is restored, we must ensure that your information is also deleted from there. Therefore, it can take up to 30 days before all your information has been completely removed.",
-"UI_TEXT_REQUEST_DELETION_ACCOUNT": "Request Deletion Account"
+"UI_TEXT_REQUEST_DELETION_ACCOUNT": "Request Deletion Account",
+"UI_NO_LIST_NAME_EXISTS": "No list name exists",
+"UI_PDF_DOWNLOAD_SUCCESSFULLY": "Pdf Downloaded Successfully",
+"UI_CREATE_NEW_LIST": "Create new list",
+"UI_NAME_LIST": "Name list",
+"UI_PASSWORD_VALIDATION": "Password must contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character"
 
 }

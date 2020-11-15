@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:empowerismo/extensions/UtilExtensions.dart';
-import 'package:empowerismo/src/dashboard/home_page.dart';
-import 'package:empowerismo/utils/Theme.dart';
+ import 'package:empowerismo/utils/Theme.dart';
 import 'package:empowerismo/utils/Util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +40,8 @@ Widget topImages(BuildContext context,
                   child: InkWell(
                     onTap: () {
                       if (sendData) {
-                        navigate(context, isAwait: true, screen: HomePage(2));
+                        Navigator.pop(context,true);
+                        //navigate(context, isAwait: true, screen: HomePage(2));
                       } else
                        context.pop();
                     },
@@ -255,19 +255,16 @@ Widget customNetworkCircleImage(
           color: Colors.white,
           elevation: 4,
           type: MaterialType.circle,
-          child:image.isNotEmpty
-              ?image.contains("http")?CircleAvatar(
+          child: image.isNotEmpty?
+image.contains("http")?CircleAvatar(
             radius: 30.0,
             backgroundImage: NetworkImage(image),
             backgroundColor: Colors.transparent,
           ):ClipOval(
-           // clipBehavior: Clip.antiAlias,
             child:Image.memory(
               base64Decode(image),fit: BoxFit.cover,
             ),
-          ) :ClipOval(
-             child:new Image.asset("assets/images/profile.png",fit: BoxFit.fill,),
-          )  /*ClipOval(
+          ) :Container(child:new Image.asset("assets/images/profile.png",fit: BoxFit.fill,))/*ClipOval(
             child: new AssetImage("assets/images/profile.png")
           ),*/
 
@@ -557,7 +554,9 @@ Widget CustomTextFieldWithBackgroundColor(
     EdgeInsetsGeometry padding,
     Widget columnChild,
     bool textField = true,
-    TextInputType keyboardType = TextInputType.text}) {
+    TextInputType keyboardType = TextInputType.text,
+     // FormFieldValidator<String> validator
+    }) {
   return new Container(
       margin: margin,
       padding: padding,
@@ -583,20 +582,22 @@ Widget CustomTextFieldWithBackgroundColor(
                     function();
                   },
                   child: textField
-                      ? new TextField(
-
-
-
-
-
-
+                      ? new TextFormField(
 onChanged: (value){
  debugPrint("value of edit text:::"+value);
  functionForEditText(value);
 },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+
                     autofocus: true,
                           controller: controller,
                           textAlign: TextAlign.start,
+
                           decoration: new InputDecoration(
                             hintText: hint,
                             hintStyle: hintStyle == null
@@ -827,7 +828,7 @@ Widget customText(
               style: style,
               textAlign: textAlign,
               maxLines: maxLine,
-              overflow: TextOverflow.ellipsis,
+              //overflow: TextOverflow.ellipsis,
             ))),
   );
 }
@@ -981,7 +982,7 @@ customListt(
       InkWell(onTap: function==null?function:(){
         function(index:index);
       }, child: Container(child:child==null?Container():child(index))),
-      itemCount: list.length > 0 ? list.length : 5,
+      itemCount: list.length > 0 ? list.length : 2,
       //controller: listScrollController,
     );
 }

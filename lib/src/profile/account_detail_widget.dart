@@ -41,8 +41,8 @@ class _AccountDetailWidgetState extends State<AccountDetailWidget> {
       appBar: EmptyAppBar(colorWhite),
       body:  WillPopScope(
           onWillPop: () async {
-            Navigator.pop(context);
-            return false;
+            Navigator.pop(context,true);
+            //return false;
           },
         child: Container(
           child: SingleChildScrollView(
@@ -56,6 +56,7 @@ class _AccountDetailWidgetState extends State<AccountDetailWidget> {
                     left: true,
                     leftAsset: "assets/images/left_arrow.svg",
                     sendData: sendDataOrNot()
+                   // sendData: false,
 
                   ),
                   commonDivider(
@@ -97,20 +98,6 @@ class _AccountDetailWidgetState extends State<AccountDetailWidget> {
                                   'UI_BUTTON_SAVE') :languageConversion(context,
                                   'UI_TEXT_EDIT'),
                                   function: () {
-                                  /*  if(name!=null)
-                                    {
-                                    setState((){
-                                    name_controller.text=name;
-                                    });
-                                    }
-                                    else{
-                                      setState((){
-                                    name_controller.text=widget.loginDetail.result.name;
-                                    name_controller.selection = TextSelection.fromPosition(TextPosition(offset: name_controller.text.length)
-
-                                    );
-                                    });
-                                    }*/
                                     if (snapshot.data == null) {
                                       setState((){
                                         name_controller.text=widget.loginDetail.
@@ -132,7 +119,7 @@ class _AccountDetailWidgetState extends State<AccountDetailWidget> {
                                       if (name_controller.text.length >0) {
                                         debugPrint("lenght of item" +
                                             name_controller.text);
-
+                                        launchProgress(context: context);
                                         setState(() {
                                           name = name_controller.text;
                                         });
@@ -161,15 +148,15 @@ class _AccountDetailWidgetState extends State<AccountDetailWidget> {
                                   "UI_PASSWORD"), "*******",languageConversion(context, "UI_TEXT_CHANGE"),function: (){
                                 navigate(context, screen:
                                 ChangePasswordPage(widget.loginDetail.result));
-
-                              }),
+ }),
                               commonDivider(
                                   color: borderColor,
                                   context: context,
                                   margin: EdgeInsets.only(left: 10, right: 10)),
                               list(context,
                                   languageConversion(context, "UI_TEXT_EMAIL"), widget.loginDetail.result.email,
-                                  languageConversion(context, "UI_TEXT_VERIFIED")),
+                                  languageConversion(context,
+                                      "UI_TEXT_VERIFIED")),
                               5.verticalSpace(),
                             ]));
                       }),
@@ -190,31 +177,33 @@ class _AccountDetailWidgetState extends State<AccountDetailWidget> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          customText(
-            margin: 10.marginRight(),
-            alignmentGeometry: Alignment.topLeft,
-            text: text1,
-            style: GoogleFonts.lato(
-                fontSize: 14, fontWeight: FontWeight.w400, color: text6Color),
+          Container(
+            width:80,
+            child: customText(
+              margin: 10.marginRight(),
+              alignmentGeometry: Alignment.topLeft,
+              text: text1,
+              style: GoogleFonts.lato(
+                  fontSize: 14, fontWeight: FontWeight.w400, color: text6Color,
+              ),
+            ),
           ),
-
           edit == "true"
               ? Expanded(child: Align(
-              alignment: Alignment.topCenter,
+              alignment: Alignment.topLeft,
               child: textFiled(widget.loginDetail.result.name, name_controller)))
               : Expanded(
                 child: customText(
-            alignmentGeometry: Alignment.topCenter,
-            maxLine: 1,
+            alignmentGeometry: Alignment.topLeft,
+            maxLine: 2,
             text: text2,
-            style: GoogleFonts.lato(
+                  textAlign: TextAlign.start,
+                  style: GoogleFonts.lato(
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
                   color: text9Color),
             //margin: EdgeInsets.only(left: 60,bottom: 10, )
-          ),
-              ),
-
+          ),),
           InkWell(
             onTap: () {
               function();
@@ -225,9 +214,9 @@ class _AccountDetailWidgetState extends State<AccountDetailWidget> {
                 /* function: () {
                   function();
                 },*/
-                margin:EdgeInsets.only(left: 10, ) ,
-
-                alignmentGeometry: Alignment.topRight,
+              //  margin:EdgeInsets.only(left: 10,),
+                maxLine:2,
+                alignmentGeometry: Alignment.topLeft,
                 text: text3,
                 style: GoogleFonts.lato(
                     fontSize: 14,
@@ -272,7 +261,8 @@ class _AccountDetailWidgetState extends State<AccountDetailWidget> {
       margin: 10.marginLeft(),
       //  height: 20,
       child: TextField(
-         textAlign: TextAlign.center,
+         textAlign: TextAlign.left,
+        autofocus: true,
         decoration: new InputDecoration(
             isDense: true,
             contentPadding: EdgeInsets.only(bottom: -2.0),
@@ -285,7 +275,6 @@ class _AccountDetailWidgetState extends State<AccountDetailWidget> {
 
         ),
         controller: name_controller,
-
         style: GoogleFonts.lato(
             fontSize: 16, fontWeight: FontWeight.w400, color: text9Color),
       ),
@@ -378,12 +367,11 @@ convertImage(String image) async {
     // launchProgress(context: context); disposeProgress();
     var bloc = await ProfileBloc()
         .updateProfile(context,name: name, id: id, authToken: authToken,image:image);
-    //disposeProgress();
+     disposeProgress();
     debugPrint("ProfilePage:: response of update profile" +
         bloc.responseCode.toString());
     debugPrint("ProfilePage:: response of update profile" +
         bloc.responseMessage.toString());
-
     bloc.responseMessage.toast();
     if (bloc.responseCode == 200) {
       var isSave = await userRepo.saveUser(bloc);

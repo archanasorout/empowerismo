@@ -150,21 +150,28 @@ class RemoveUnfavouriteDialog extends StatelessWidget {
       debugPrint("authToken::" + authToken);
     launchProgress(context: context);
     var bloc = await favouriteRepo.exportWordApi(context, auth_token: authToken,word_Id:word_Id );
-    disposeProgress();
-    bloc.responseMessage.toast();
-
     if (bloc != null)
       appDocDir = await getExternalStorageDirectory();
       debugPrint("appDocDir"+appDocDir.path);
+      debugPrint("downloadUrl"+bloc.downloadUrl.toString());
 
       final taskId = await FlutterDownloader.enqueue(
         url:bloc.downloadUrl,
         savedDir: appDocDir.path,
         showNotification: true,
         openFileFromNotification: true,
-      );
-      Navigator.pop(context, bloc.responseMessage);
-      debugPrint("Task idd  "+taskId.toString());
+      ).catchError((error){
+        disposeProgress();
+        error.toast();
+      }).then((value){
+        disposeProgress();
+        Navigator.pop(context, bloc.responseMessage);
+        debugPrint("Task idd"+value.toString());
+        languageConversion(context,
+            'UI_PDF_DOWNLOAD_SUCCESSFULLY').toast();
+      });
+      debugPrint("Task idd"+taskId.toString());
+
       FlutterDownloader.open(taskId: taskId);
   }
 initilize() async {

@@ -73,7 +73,7 @@ class _OpenFavouritesListWidgetState extends State<OpenFavouritesListWidget> {
                                   'UI_TEXT_DOWNLOAD'),
                               asset: "assets/images/download.svg"),
                           20.horizontalSpace(),
-                          Container(
+                        /*  Container(
                             height: 20,
                             width: 1,
                             color: text17Color,
@@ -82,7 +82,7 @@ class _OpenFavouritesListWidgetState extends State<OpenFavouritesListWidget> {
                               context: context,
                               text:languageConversion(context,
                                   'UI_TEXT_PRINT') ,
-                              asset: "assets/images/printer.svg"),
+                              asset: "assets/images/printer.svg"),*/
                         ],
                       ),
                       commonDivider(

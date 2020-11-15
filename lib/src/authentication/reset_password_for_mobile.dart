@@ -20,7 +20,9 @@ class _ResetPasswordState extends State<ResetPassword> {
   LoginBloc loginBloc = new LoginBloc();
   TextEditingController confirmPassController = TextEditingController();
   TextEditingController newPassController = TextEditingController();
-
+  bool isPasswordValid=false;
+  bool isNewPass=true;
+  bool isConfirmPass=true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +76,25 @@ class _ResetPasswordState extends State<ResetPassword> {
                     password: true,
                     controller: newPassController,
                     isShowPass:true,
+                      isPassShowing:isNewPass,
+                      function:(){
+                        if(isNewPass)
+                        {
+                          setState(() {isNewPass=false;});
+                        }else{
+                          setState(() {isNewPass=true;});
+                        }
+                      },
+                      onChanged:(value){
+                        debugPrint("valueee"+value);
+                        setState(() {
+                          isPasswordValid=validateStructure(value);
+                        });
+
+                      }
                   ),
+                  newPassController.text.length>0 && !isPasswordValid?validationWidget(
+                      DemoLocalizations.of(context).trans('UI_PASSWORD_VALIDATION')):Container(),
                   15.verticalSpace(),
                   loginPasswordTextField(
                     context,
@@ -86,7 +106,24 @@ class _ResetPasswordState extends State<ResetPassword> {
                     password: true,
                     controller: confirmPassController,
                     isShowPass:true,
+                      isPassShowing:isConfirmPass,
+                      function:(){
+                        if(isConfirmPass)
+                        {
+                          setState(() {isConfirmPass=false;});
+                        }else{
+                          setState(() {isConfirmPass=true;});
+                        }
+
+                      },
+                      onChanged:(value){
+                        debugPrint("dslkhduj"+value);
+                        setState(() { });
+
+                      }
                   ),
+                  confirmPassController.text.length>0 && confirmPassController.text!=newPassController.text?validationWidget(
+                      DemoLocalizations.of(context).trans('UI_TOAST_CONFIRM_NEW_NOT_MATCHED')):Container(),
                   50.verticalSpace(),
                   Container(
                     margin: EdgeInsets.only(left: 20, right: 20, bottom: 30,),
@@ -95,8 +132,9 @@ class _ResetPasswordState extends State<ResetPassword> {
                       function: () {
                         FocusScope.of(context).requestFocus(FocusNode());
                         if (newPassController.text.isEmpty) {
-
                           DemoLocalizations.of(context).trans('UI_TOAST_ENTER_NEW_PASSWORD').toast();
+                        }else if (!isPasswordValid) {
+                          DemoLocalizations.of(context).trans('UI_TOAST_ENTER_VALID_NEW_PASSWORD') .toast();
                         }
                         else if (confirmPassController.text.isEmpty) {
                           DemoLocalizations.of(context).trans('UI_TOAST_ENTER_CONFIRM_PASSWORD').toast();
@@ -128,14 +166,29 @@ class _ResetPasswordState extends State<ResetPassword> {
       ),
     );
   }
-
+  validationWidget(String validation){
+    return customText(
+      margin: EdgeInsets.only(left: 20, right: 20),
+      textAlign:TextAlign.start,
+      text:"*"+validation,
+      maxLine: 5,
+      style: font(
+          fontSize: 16.0,
+          color: Colors.red,
+          fontWeight: FontWeight.w600),
+    );
+  }
   Widget loginPasswordTextField(BuildContext context, String asset, String text,
       bool view,
       {double height: 15,
         double width: 15,
         bool password: false,
         TextEditingController controller,
-        bool isShowPass: false}) {
+        bool isShowPass: false,
+        bool isPassShowing:false,
+        Function function,
+        Function onChanged,
+      }) {
     return Container(
       margin: EdgeInsets.only(left: 20, right: 20),
       color: colorWhite,
@@ -162,12 +215,27 @@ class _ResetPasswordState extends State<ResetPassword> {
             ),
           ],
         ),
+        leading:
+        InkWell(
+          onTap: (){
+            function();
+          },
+          child: Container(
+              margin: EdgeInsets.only(left: 10, right: 10),
+              child: Icon(
+                Icons.visibility,
+                color: isPassShowing ? text11Color : purpleColor,
+              )),
+        ),
+        functionForEditText:(value){
+          onChanged(value);
+        },
         controller: controller,
         hintStyle: font(
             fontSize: 16.0, color: text11Color, fontWeight: FontWeight.w400),
         radious: 5.0,
         hint: text,
-        isObsure: isShowPass,
+        isObsure: isPassShowing,
         textField: true,
 
       ),
